@@ -123,15 +123,23 @@ Fact
 Option two could reduce some metadata to be stored. Prefered Option Two for now. 
 
 ### Partition Table MetaData Store
-partitioni info should be stored in file footer/index file and load into memory before user query.
+partition info should be stored in table schema and load into memory when user initiate carbon/spark session.
 
 ### Relationship with Bucket
-Bucket should be lower level of partition.
+Bucket should be the lower level of partition.
 
 ### Query on Partition Table
 ```
 Example:
 Select * from sales
 where logdate <= date '2016-12-01';
+
+Select * from sales
+join sales_product
+on sales.logdate = sales_product.logdate
+where sales.logdate <= date '2016-12-01'
+;  
+#if sales_product is also partitioned on logdate, then optimizer will also add filter 
+on sales_product and then do the join.
 ```
 User should remember to add a partition filter when write SQL on a partition table.
