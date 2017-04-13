@@ -34,29 +34,37 @@ PartitionName is OPTIONAL. If user specified PartitionName then use it else Syst
 
 range partition: 
      
-     1. Fixed Range Partition（Static)
-     partition by range logdate(
+1. Fixed Range Partition（Static)
+```
+  partition by range logdate(
          part0(<'2016-01-01'), 
          part1(<'2017-01-01'), 
          part2(<'2017-02-01'), 
          part3(<'2017-03-01'), 
          part4(<'2017-04-01'))
-     2. Interval Range Partition(Dynamic)
-     partition by range logdate(
+```
+2. Interval Range Partition(Dynamic)
+```     
+  partition by range logdate(
          case <'2016-01-01' interval '1' YEAR, 
          case <'2017-01-01' interval '1' MONTH, 
          case other interval '1' DAY)
+```         
 list partition:
 
-     1. Single List Partition
-     partition by list area('Asia','Europe','North America','Africa','Oceania')
-     2. Array List Partition
-     partition by list country(('China','India'),('Canada','America'),('England','France'),'Australia')
-     3. Full List Partition     #Any better name for this?
-     partition by list area('Asia','Europe','North America','Africa','Oceania',&)   ##All values not in the list will be put in another partition
+1. Single List Partition
+
+       partition by list area('Asia','Europe','North America','Africa','Oceania')
+2. Array List Partition
+
+       partition by list country(('China','India'),('Canada','America'),('England','France'),'Australia')
+3. Full List Partition     #Any better name for this?
+
+       partition by list area('Asia','Europe','North America','Africa','Oceania',&)   ##All values not in the list will be put in another partition
 hash partition:
 
-     partition by hash(itemid, 9)  #9 is partition number here
+       partition by hash(itemid, 9)  #9 is partition number here
+       
 ~~composite partition:~~
 
   ~~partition by range logdate(<  '2016- -01', < '2017-01-01', < '2017-02-01', < '2017-03-01', < '2099-01-01')
