@@ -60,7 +60,8 @@ list partition:
        partition by list country(('China','India'),('Canada','America'),('England','France'),'Australia')
 3. Full List Partition     #Any better name for this?
 
-       partition by list area('Asia','Europe','North America','Africa','Oceania',&)   ##All values not in the list will be put in another partition
+       partition by list area('Asia','Europe','North America','Africa','Oceania',&)   
+       ##add symbol '&' in the end so that all values not in the list will be put in another partition
 hash partition:
 
        partition by hash(itemid, 9)  #9 is partition number here
