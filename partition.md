@@ -30,7 +30,7 @@ Create table sales(
 Stored By 'carbondata'
 [tblproperties(...)];
 ```
-PartitionName is OPTIONAL. If user specified PartitionName then use it else System will auto-increase the partition number from 0 to CARBON_MAX_PARTITIONS(User can set in carbon.properties).
+PartitionName is OPTIONAL when user create table. If user specified PartitionName then use it else System will auto-increase the partition number from 0 to CARBON_MAX_PARTITIONS(User can set in carbon.properties). Finally system will format the create statement and fill the PartitionName.
 
 range partition: 
      
@@ -74,11 +74,13 @@ hash partition:
 ~~Alter table sales rebuild partition by (range|list|hash)(...);~~
 ```
 add/delete only support range partitioning, list partitioning
+Alter table sales add partition ([PartitionName](PartitionValue));
+Alter table sales delete partition ({PartitionName});
 
+Example:
 Alter table sales add partition (Part5(<'2018-01-01'));    
 Alter table sales add partition ('South America');
-Alter table sales delete partition (< '2016-01-01');
-Alter table sales delete partition ('Canada');
+Alter table sales delete partition (Part5);
 ```
 ~~Note: No delete operation for partition, please use rebuild. 
 
@@ -114,18 +116,18 @@ Fact
 ```
 
 #### Pros & Cons: 
-Option one would be faster to locate target files but need to store more metadata of folders
+Option two could reduce some metadata to be stored. Prefered Option Two for now. 
 
 Partition Table MetaData Store
 partitioni info should be stored in file footer/index file and load into memory before user query.
 
-Relationship with Bucket
+#### Relationship with Bucket
 Bucket should be lower level of partition.
 
-Partition Table Query
-
+#### Partition Table Query
+```
 Example:
 Select * from sales
 where logdate <= date '2016-12-01';
-
+```
 User should remember to add a partition filter when write SQL on a partition table.
