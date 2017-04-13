@@ -10,11 +10,11 @@ With partition table:
 
 ### Partitioning design
 #### Range Partitioning           
-       range partitioning maps data to partitions according to the range of partition column values, operator '<' defines non-inclusive upper bound of current partition.
+range partitioning maps data to partitions according to the range of partition column values, operator '<' defines non-inclusive upper bound of current partition.
 #### List Partitioning
-       list partitioning allows you map data to partitions with specific value list
+list partitioning allows you map data to partitions with specific value list
 #### Hash Partitioning
-       hash partitioning maps data to partitions with hash algorithm and put them to the given number of partitions
+hash partitioning maps data to partitions with hash algorithm and put them to the given number of partitions
 #### ~~Composite Partitioning(2 levels at most for now)~~
    ~~Range-Range, Range-List, Range-Hash, List-Range, List-List, List-Hash, Hash-Range, Hash-List, Hash-Hash~~
 
