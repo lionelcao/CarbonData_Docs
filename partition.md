@@ -83,13 +83,14 @@ Alter table sales add partition (Part5(<'2018-01-01'));
 Alter table sales add partition ('South America');
 Alter table sales delete partition (Part5);
 ```
-~~Note: No delete operation for partition, please use rebuild. 
 
-~~If need delete data, use delete statement, but the definition of partition will not be deleted.
+~~Note: No delete operation for partition, please use rebuild. ~~
+~~If need delete data, use delete statement, but the definition of partition will not be deleted.~~
 
-Partition Table Data Store
-#### ~~[Option One]
-~~Use the current design, keep partition folder out of segments
+### Partition Table Data Store
+#### ~~[Option One]~~
+
+~~Use the current design, keep partition folder out of segments~~
 ```
 Fact
    |___Part0
@@ -119,13 +120,13 @@ Fact
 #### Pros & Cons: 
 Option two could reduce some metadata to be stored. Prefered Option Two for now. 
 
-Partition Table MetaData Store
+### Partition Table MetaData Store
 partitioni info should be stored in file footer/index file and load into memory before user query.
 
-#### Relationship with Bucket
+### Relationship with Bucket
 Bucket should be lower level of partition.
 
-#### Partition Table Query
+### Query on Partition Table
 ```
 Example:
 Select * from sales
