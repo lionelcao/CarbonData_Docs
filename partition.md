@@ -6,7 +6,7 @@ With partition table:
 
       1. Data could be better managed, organized and stored. 
       2. We can avoid full table scan in some scenario and improve query performance. (partition column in filter, 
-      multiple partition tables join in the same partition column etc.)
+      multiple partition tables join on the same partition column etc.)
 
 ### Partitioning design
 #### Range Partitioning           
