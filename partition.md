@@ -68,8 +68,9 @@ hash partition:
        
 ~~composite partition:~~
 
-  ~~partition by range logdate(<  '2016- -01', < '2017-01-01', < '2017-02-01', < '2017-03-01', < '2099-01-01')
-     subpartition by list area('Asia', 'Europe', 'North America', 'Africa', 'Oceania')~~
+ ~~partition by range logdate(<  '2016- -01', < '2017-01-01', < '2017-02-01', < '2017-03-01', < '2099-01-01')~~
+  
+ ~~subpartition by list area('Asia', 'Europe', 'North America', 'Africa', 'Oceania')~~
 
 ### DDL-~~Rebuild~~, Add, Delete
 ~~Alter table sales rebuild partition by (range|list|hash)(...);~~
