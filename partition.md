@@ -86,6 +86,7 @@ Alter table sales delete partition (Part5);
 ```
 
 ~~Note: No delete operation for partition, please use rebuild. ~~
+
 ~~If need delete data, use delete statement, but the definition of partition will not be deleted.~~
 
 ### Partition Table Data Store
