@@ -23,12 +23,13 @@ hash partitioning maps data to partitions with hash algorithm and put them to th
 Create table sales(
      itemid long, 
      logdate datetime, 
-     customerid int
+     customerid int,
+     country string,
      ...
      ...)
-[partition by {PartitionType} {PartitionColumn}([PartitionName1](PartitionValue1),[PartitionName2](PartitionValue2) ...)]
+[partition by  (PARTITION_COLUMN)］
 Stored By 'carbondata'
-[tblproperties(...)];
+[tblproperties('PARTITIONING'='XXX',['PARTITION_VALUE_LIST'='XXX, XXXX, XXXXX'],['PARTITIONCOUNT'='XX'])];
 ```
 PartitionName is OPTIONAL when user create table. If user specified PartitionName then use it else System will auto-increase the partition number from 0 to CARBON_MAX_PARTITIONS(User can set in carbon.properties). Finally system will format the create statement and fill the PartitionName.
 
@@ -36,35 +37,36 @@ range partition:
      
 1. Fixed Range Partition（Static)
 ```
-  partition by range logdate(
-         part0(<'2016-01-01'), 
-         part1(<'2017-01-01'), 
-         part2(<'2017-02-01'), 
-         part3(<'2017-03-01'), 
-         part4(<'2017-04-01'))
+  PARTITION BY (logdate)
+  ...
+  TBLPROPERTIES('PARTITIONING'='RANGE','PARTITION_VALUE_LIST'='20160101,20160201,20160301,20160401')
 ```
 2. Interval Range Partition(Dynamic)
 ```     
-  partition by range logdate(
-         case <'2016-01-01' interval '1' YEAR, 
-         case <'2017-01-01' interval '1' MONTH, 
-         case other interval '1' DAY)
+  PARTITION BY (logdate)(
+         CASE <'2016-01-01' INTERVAL '1' YEAR, 
+         CASE <'2017-05-01' INTERVAL '1' MONTH, 
+         CASE other INTERVAL '1' DAY)
+  ...
 ```         
 list partition:
 
 1. Single List Partition
 
-       partition by list area('Asia','Europe','North America','Africa','Oceania')
+       PARTITION BY (area)
+       ...
+       TBLPROPERTIES('PARTITIONING'='LIST','PARTITION_VALUE_LIST'=('Asia','Europe','North America','Africa','Oceania')
 2. Array List Partition
 
-       partition by list country(('China','India'),('Canada','America'),('England','France'),'Australia')
-3. Full List Partition     #Any better name for this?
+       PARTITION BY (country)
+       ...
+       TBLPROPERTIES('PARTITIONING'='LIST','PARTITION_VALUE_LIST'=(('China','India'),('Canada','America'),('England','France'),'Australia'))  
 
-       partition by list area('Asia','Europe','North America','Africa','Oceania',&)   
-       ##add symbol '&' in the end so that all values not in the list will be put in another partition
 hash partition:
 
-       partition by hash(itemid, 9)  #9 is partition number here
+       PARTITION BY (itemid)
+       ...
+       TBLPROPERTIES('PARTITIONING'='HASH','PARTITIONCOUNT'='9')
        
 ~~composite partition:~~
 
