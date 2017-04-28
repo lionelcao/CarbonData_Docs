@@ -29,9 +29,12 @@ Create table sales(
      ...)
 [partition by  (PARTITION_COLUMN)］
 Stored By 'carbondata'
-[tblproperties('PARTITIONING'='XXX',['PARTITION_VALUE_LIST'='XXX, XXXX, XXXXX'],['PARTITIONCOUNT'='XX'])];
+[tblproperties('PARTITIONING'='XXX',
+              ['PARTITION_VALUE_LIST'='XXX, XXXX, XXXXX'],
+              ['PARTITIONCOUNT'='XX'],
+              ['PARTITIONNAME'='PART0,PART1,PART2'])];
 ```
-PartitionName is OPTIONAL when user create table. If user specified PartitionName then use it else System will auto-increase the partition number from 0 to CARBON_MAX_PARTITIONS(User can set in carbon.properties). Finally system will format the create statement and fill the PartitionName.
+PartitionName is OPTIONAL when user create table. If user specified PartitionName then use it else System will auto-generate the PartitionName. The number of PartitionNames must equal to the number of value list.
 
 range partition: 
      
@@ -43,11 +46,9 @@ range partition:
 ```
 2. Interval Range Partition(Dynamic)
 ```     
-  PARTITION BY (logdate)(
-         CASE <'2016-01-01' INTERVAL '1' YEAR, 
-         CASE <'2017-05-01' INTERVAL '1' MONTH, 
-         CASE other INTERVAL '1' DAY)
+  PARTITION BY (logdate)
   ...
+  TBLPROPERTIES('PARTITIONING'='RANGE_INTERVAL','PARTITION_VALUE_LIST'='(2016-01-01,YEAR),(2017-05-01,MONTH),(OTHER,DAY)'
 ```         
 list partition:
 
@@ -55,12 +56,12 @@ list partition:
 
        PARTITION BY (area)
        ...
-       TBLPROPERTIES('PARTITIONING'='LIST','PARTITION_VALUE_LIST'=('Asia','Europe','North America','Africa','Oceania')
+       TBLPROPERTIES('PARTITIONING'='LIST','PARTITION_VALUE_LIST'=(Asia,Europe,North America,Africa,Oceania)
 2. Array List Partition
 
        PARTITION BY (country)
        ...
-       TBLPROPERTIES('PARTITIONING'='LIST','PARTITION_VALUE_LIST'=(('China','India'),('Canada','America'),('England','France'),'Australia'))  
+       TBLPROPERTIES('PARTITIONING'='LIST','PARTITION_VALUE_LIST'=((China,India),Japan,(Canada,America),Russia, (England,France),Australia))  
 
 hash partition:
 
@@ -73,6 +74,20 @@ hash partition:
  ~~partition by range logdate(<  '2016- -01', < '2017-01-01', < '2017-02-01', < '2017-03-01', < '2099-01-01')~~
   
  ~~subpartition by list area('Asia', 'Europe', 'North America', 'Africa', 'Oceania')~~
+
+### Show PartitionInfo
+```
+SHOW PARTITIONS #TABLENAME;
+
+----------------------------
+ID , NAME, VALUE(Country=)
+0, Part0, china
+1, Part1, usa
+2, Part2, uk
+3, Part3, india
+...
+
+```
 
 ### DDL-~~Rebuild~~, Add, Delete
 ~~Alter table sales rebuild partition by (range|list|hash)(...);~~
