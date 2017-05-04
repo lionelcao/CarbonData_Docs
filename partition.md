@@ -44,7 +44,7 @@ range partition:
   ...
   TBLPROPERTIES('PARTITION_TYPE'='RANGE','RANGE_INFO'='20160101, 20160201, 20160301,20160401')
 ```
-2. Interval Range Partition(Dynamic)
+2. Interval Range Partition(Dynamic)(TBD)
 ```     
   PARTITIONED BY (logdate)
   ...
