@@ -32,8 +32,7 @@ Stored By 'carbondata'
 [tblproperties('PARTITION_TYPE'='XXX',
               ['RANGE_INFO'='XXX, XXXX, XXXXX'],
               ['LIST_INFO'='XXX, (XXXX, XX), XXXXX'],
-              ['HASH_NUMBER'='XX'],
-              ['PARTITIONNAME'='PART0,PART1,PART2'])];
+              ['HASH_NUMBER'='XX'])];
 ```
 PartitionName is OPTIONAL when user create table. If user specified PartitionName then use it else System will auto-generate the PartitionName. The number of PartitionNames must equal to the number of value list.
 
