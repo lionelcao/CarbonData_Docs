@@ -29,9 +29,10 @@ Create table sales(
      ...)
 [partition by  (PARTITION_COLUMN)］
 Stored By 'carbondata'
-[tblproperties('PARTITIONING'='XXX',
-              ['PARTITION_VALUE_LIST'='XXX, XXXX, XXXXX'],
-              ['PARTITIONCOUNT'='XX'],
+[tblproperties('PARTITION_TYPE'='XXX',
+              ['RANGE_INFO'='XXX, XXXX, XXXXX'],
+              ['LIST_INFO'='XXX, (XXXX, XX), XXXXX'],
+              ['HASH_NUMBER'='XX'],
               ['PARTITIONNAME'='PART0,PART1,PART2'])];
 ```
 PartitionName is OPTIONAL when user create table. If user specified PartitionName then use it else System will auto-generate the PartitionName. The number of PartitionNames must equal to the number of value list.
@@ -40,34 +41,34 @@ range partition:
      
 1. Fixed Range Partition（Static)
 ```
-  PARTITION BY (logdate)
+  PARTITIONED BY (logdate)
   ...
-  TBLPROPERTIES('PARTITIONING'='RANGE','PARTITION_VALUE_LIST'='20160101,20160201,20160301,20160401')
+  TBLPROPERTIES('PARTITION_TYPE'='RANGE','RANGE_INFO'='20160101, 20160201, 20160301,20160401')
 ```
 2. Interval Range Partition(Dynamic)
 ```     
-  PARTITION BY (logdate)
+  PARTITIONED BY (logdate)
   ...
-  TBLPROPERTIES('PARTITIONING'='RANGE_INTERVAL','PARTITION_VALUE_LIST'='(2016-01-01,YEAR),(2017-05-01,MONTH),(OTHER,DAY)'
+  TBLPROPERTIES('PARTITION_TYPE'='RANGE_INTERVAL','PARTITION_VALUE_LIST'='(2016-01-01,YEAR),(2017-05-01,MONTH),(OTHER,DAY)'
 ```         
 list partition:
 
 1. Single List Partition
 
-       PARTITION BY (area)
+       PARTITIONED BY (area)
        ...
-       TBLPROPERTIES('PARTITIONING'='LIST','PARTITION_VALUE_LIST'=(Asia,Europe,North America,Africa,Oceania)
+       TBLPROPERTIES('PARTITION_TYPE'='LIST','LIST_INFO'=(Asia,Europe,North America,Africa,Oceania)
 2. Array List Partition
 
-       PARTITION BY (country)
+       PARTITIONED BY (country)
        ...
-       TBLPROPERTIES('PARTITIONING'='LIST','PARTITION_VALUE_LIST'=((China,India),Japan,(Canada,America),Russia, (England,France),Australia))  
+       TBLPROPERTIES('PARTITION_TYPE'='LIST','LIST_INFO'=((China,India),Japan,(Canada,America),Russia, (England,France),Australia))  
 
 hash partition:
 
        PARTITION BY (itemid)
        ...
-       TBLPROPERTIES('PARTITIONING'='HASH','PARTITIONCOUNT'='9')
+       TBLPROPERTIES('PARTITION_TYPE'='HASH','HASH_NUMBER'='9')
        
 ~~composite partition:~~
 
